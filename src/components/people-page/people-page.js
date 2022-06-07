@@ -1,35 +1,30 @@
 import { Component } from "react";
-import ErrorIndicator from "../error-indicator";
-import ItemList from "../item-list";
-import PersonDetails from "../person-details";
+import SwapiService from "../../services/swapi-service";
+import ErrorBoundry from "../error-boundry";
+import Row from "../row";
+import { PersonList, PersonDetails, StarshipList } from "../sw-components";
 import "./people-page.css";
 
 export default class PeoplePage extends Component {
+	swapiService = new SwapiService();
+
 	state = {
-		selectedPerson: null,
-		errorCatched: false,
+		selectedItem: null,
 	};
 
-	componentDidCatch() {
-		this.setState({ errorCatched: true });
-	}
-
-	onPersonSelected = (selectedPerson) => {
-		this.setState({ selectedPerson });
+	onPersonSelected = (selectedItem) => {
+		this.setState({ selectedItem });
 	};
 
 	render() {
-		if (this.state.errorCatched) {
-			return <ErrorIndicator />;
-		}
+		const itemList = <StarshipList onItemSelected={this.onPersonSelected} />;
+		const itemDetails = <PersonDetails itemId={this.state.selectedItem} />;
+
 		return (
-			<div className="row mb2">
-				<div className="col-md-6">
-					<ItemList onItemSelected={this.onPersonSelected} />
-				</div>
-				<div className="col-md-6">
-					<PersonDetails personId={this.state.selectedPerson} />
-				</div>
+			<div>
+				<ErrorBoundry>
+					<Row left={itemList} right={itemDetails} />
+				</ErrorBoundry>
 			</div>
 		);
 	}
