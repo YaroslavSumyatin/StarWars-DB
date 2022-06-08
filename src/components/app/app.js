@@ -3,14 +3,15 @@ import SwapiService from "../../services/swapi-service";
 import DummyService from "../../services/dummy-service";
 import ErrorBoundry from "../error-boundry";
 import Header from "../header";
-import PeoplePage from "../people-page";
 import RandomPlanet from "../random-planet/random-planet";
 import { SwapiServiceProvider } from "../swapi-service-context";
 import "./app.css";
+import PeoplePage from "../pages/people-page";
+import PlanetPage from "../pages/planets-page";
+import StarshipPage from "../pages/starships-page";
 
 export default class App extends Component {
 	state = {
-		showRandomPlanet: true,
 		swapiService: new SwapiService(),
 	};
 
@@ -27,27 +28,17 @@ export default class App extends Component {
 		this.setState({ errorCatched: true });
 	}
 
-	toggleRandomPlanet = () => {
-		this.setState((state) => {
-			return { showRandomPlanet: !state.showRandomPlanet };
-		});
-	};
-
 	render() {
-		const { showRandomPlanet, swapiService } = this.state;
-		const randomPlanetComponent = showRandomPlanet ? <RandomPlanet /> : null;
+		const { swapiService } = this.state;
 		return (
 			<div className="swdb-app">
 				<ErrorBoundry>
 					<SwapiServiceProvider value={swapiService}>
 						<Header onServiceChange={this.onServiceChange} />
-						{randomPlanetComponent}
-						<button
-							className="toggle-planet btn btn-warning btn-lg"
-							onClick={this.toggleRandomPlanet}>
-							Toggle Random Planet
-						</button>
+						<RandomPlanet />
 						<PeoplePage />
+						<PlanetPage />
+						<StarshipPage />
 					</SwapiServiceProvider>
 				</ErrorBoundry>
 			</div>

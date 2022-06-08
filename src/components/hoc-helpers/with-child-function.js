@@ -1,6 +1,6 @@
-const withChildFunction = (WrappedComponent, func) => {
+const withChildFunction = (childFunction) => (WrappedComponent) => {
 	return (props) => {
-		return <WrappedComponent {...props}>{func}</WrappedComponent>;
+		return <WrappedComponent {...props}>{childFunction}</WrappedComponent>;
 	};
 };
 
