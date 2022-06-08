@@ -1,23 +1,28 @@
 import { Component, Fragment } from "react";
-import "./random-planet.css";
+import PropTypes from "prop-types";
 import SwapiService from "../../services/swapi-service";
 import Spinner from "../spinner/spinner";
 import ErrorIndicator from "../error-indicator";
+import "./random-planet.css";
 
 const MIN_ID = 2;
 const MAX_ID = 19;
 
 export default class RandomPlanet extends Component {
+	static defaultProps = {
+		updateInterval: 2500,
+	};
+
+	static propTypes = {
+		updateInterval: PropTypes.number,
+	};
+
 	swapiService = new SwapiService();
 
 	state = {
 		planet: {},
 		loading: true,
 		error: false,
-	};
-
-	static defaultProps = {
-		updateInterval: 2500,
 	};
 
 	componentDidMount() {
