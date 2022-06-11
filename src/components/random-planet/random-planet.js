@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import SwapiService from "../../services/swapi-service";
 import Spinner from "../spinner/spinner";
 import ErrorIndicator from "../error-indicator";
+import { rnums } from "jsmp-infra-nikita-rnums";
 import "./random-planet.css";
 
 const MIN_ID = 2;
@@ -43,12 +44,8 @@ export default class RandomPlanet extends Component {
 		this.setState({ planet, loading: false });
 	};
 
-	currentId = MIN_ID;
 	updatePlanet = () => {
-		if (this.currentId > MAX_ID) {
-			this.currentId = MIN_ID;
-		}
-		const id = this.currentId++;
+		const id = rnums({ min: MIN_ID, max: MAX_ID });
 		this.swapiService.getPlanet(id).then(this.onPlanetLoad).catch(this.onError);
 	};
 
